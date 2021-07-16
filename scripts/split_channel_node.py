@@ -20,6 +20,7 @@ class SplitChannelNode:
         self._audio_pubs = [rospy.Publisher(
             'audio_out_{}'.format(i), AudioFrame, queue_size=10) for i in range(self._channel_count)]
         self._audio_sub = rospy.Subscriber('audio_in', AudioFrame, self._audio_cb, queue_size=10)
+        print("Hellow World")
 
     def _audio_cb(self, msg):
         if msg.format != self._input_format or msg.channel_count != self._channel_count:
@@ -27,7 +28,6 @@ class SplitChannelNode:
             return
 
         frames = convert_audio_data_to_numpy_frames(self._input_format_information, msg.channel_count, msg.data)
-        
         for i in range(len(frames)):
             data = convert_numpy_frames_to_audio_data(self._output_format_information, [frames[i]])
 

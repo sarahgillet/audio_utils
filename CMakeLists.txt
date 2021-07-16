@@ -9,7 +9,7 @@ add_subdirectory(src/MusicBeatDetector)
 project(audio_utils)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -147,6 +147,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(beat_detector_node src/beat_detector_node.cpp)
 add_executable(alsa_capture_node src/alsa_capture_node.cpp src/AlsaException.cpp src/AlsaPcmDevice.cpp)
+add_executable(alsa_capture_node_s21 src/alsa_capture_node_sschool.cpp src/AlsaException.cpp src/AlsaPcmDevice.cpp)
 add_executable(alsa_playback_node src/alsa_playback_node.cpp src/AlsaException.cpp src/AlsaPcmDevice.cpp)
 
 ## Rename C++ executable without prefix
@@ -167,6 +168,12 @@ target_link_libraries(beat_detector_node
 )
 
 target_link_libraries(alsa_capture_node
+  ${catkin_LIBRARIES}
+  MusicBeatDetector
+  asound
+)
+
+target_link_libraries(alsa_capture_node_s21
   ${catkin_LIBRARIES}
   MusicBeatDetector
   asound
